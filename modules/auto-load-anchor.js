@@ -6,6 +6,7 @@
  * create: 2020.10.14
  * 
  * changelog:(above is newer)
+ *  v0.2.0 2023.06.04  : IntersectingObserver API に書き換え
  *  v0.1.3 2020.11.23  : 実行済み判定の不具合修正
  *  v0.1.3 2020.11.11  : クラス形式から関数形式へ変更。fireOnce追加。
  *  v0.1.2 2020.10.30  : add setting param: gap, anchorPoint.
@@ -15,68 +16,61 @@
  * MIT License.
  */
 
-function AutoLoadAnchor(settings){
-    this.__eventHandler = (event) => {
-      if(this.terminated != 0){
+function AutoLoadAnchor(settings) {
+  /** gapオプションからobserverのthresholdオプションへのマッピング */
+  const __anchorToThreshold = { "top": 0.0, "bottom": 1.0 };
+  const __gapVectorToThreshold = { "top": 1, "bottom": -1 };
+
+  const observe = (props) => {
+    // TODO: 監視解除時の処理は変更する必要がある
+    if (props.terminated != 0) {
+      return;
+    }
+    // Observerの準備
+    const gapValue = __gapVectorToThreshold[props.anchorPoint] * props.gap;
+    const thresholdValue = __anchorToThreshold[props.anchorPoint];
+    const options = {
+      root: null,
+      threshold: thresholdValue,
+      rootMargin: `0px 0px ${gapValue}px 0px`
+    };
+    props.__observer = new IntersectionObserver((entries) => {
+      if (terminated) {
         return;
       }
-      // セレクタで指定される全ての要素に対して判定するように変更
-      let targets = document.querySelectorAll(this.anchorSelector);
-      for(let target of targets){
-        // 実行済み判定
-        if(this.fireOnce && target.dataset.autoLoadAnchorFired === "1") continue;
-        // console.dir(target);
-        // 表示されているウィンドウ領域の座標判定
-        let wtop = window.scrollY;  // 現ウィンドウのtop位置がドキュメント全体のどの位置か
-        let wbtm = wtop + window.innerHeight  // 現ウィンドウのbottom位置がドキュメント全体のどの位置か
-        // console.log('wtop:',wtop, 'wbtm', wbtm);
-        //　対象要素の座標取得。gapを計算に入れる。
-        let tanchor;
-        if(this.anchorPoint === "top"){
-          tanchor = target.offsetTop + this.gap;
-        }else if(this.anchorPoint === "bottom"){
-          // console.log("bottom",target.offsetTop,target.clientHeight );
-          tanchor = target.offsetTop + target.clientHeight + this.gap;
-        }else{
-          tanchor = target.offsetTop + this.gap;   // 無効な指定の場合はtop扱い
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          props.func(e.target);
         }
-        // 対象要素のtopがwindowのbottom以下の場合はウィンドウ内にあるという判定になる。
-        // また、セマフォが0のときのみ中の関数を実行する。
-        if(tanchor <= wbtm && tanchor >= wtop && this.semaphore == 0){
-          // セマフォ処理を関数の前後で行う。
-          this.semaphore = 1;
-          // funcには引数にtargetを追加
-          this.func(target);
-          // 一度実行したら実行済みマークをタグにつける
-          target.dataset.autoLoadAnchorFired = 1;
-          this.semaphore = 0;
-        }else if(this.semaphore == 1){
-          // console.log("semaphore block");
-        }
-      }
-    };
-    this.anchorSelector = settings.anchorSelector;
-    this.func = settings.func;
-    this.semaphore = 0;
-    this.terminated = 0;
-    this.runImmediate = settings.runImmediate !== undefined ? settings.runImmediate : true;
-    this.gap = settings.gap ? settings.gap : 0;
-    this.anchorPoint = settings.anchorPoint ? settings.anchorPoint : "top";   // "top" or "bottom"
-    this.fireOnce = settings.fireOnce !== undefined ? settings.fireOnce : true;
-    window.addEventListener('scroll', this.__eventHandler);
-    if(this.runImmediate){
-      window.addEventListener('load', this.__eventHandler);
+      });
+    }, options);
+
+    // セレクタで指定される全ての要素に対して判定するように変更
+    let targets = document.querySelectorAll(props.anchorSelector);
+    for (let target of targets) {
+      props.__observer.observe(target);
     }
-    // this.main();
-  return {
-    stop: () => this.terminated = 1,
-    restart: () => this.terminated = 0,
   };
 
-  main = () => {
-    window.addEventListener('scroll', this.eventHandler);
-    if(this.runImmediate){
-      window.addEventListener('load', this.eventHandler);
-    }
-  }
+  // プロパティ初期化：省略されたパラメータをデフォルトに設定しなおす
+  const props = {
+    anchorSelector: settings.anchorSelector,
+    func: settings.func,
+    semaphore: 0,
+    terminated: false,
+    runImmediate: settings.runImmediate !== undefined ? settings.runImmediate : true,
+    gap: settings.gap ? settings.gap : 0,
+    anchorPoint: settings.anchorPoint ? settings.anchorPoint : "top",  // "top" or "bottom"
+    fireOnce: settings.fireOnce !== undefined ? settings.fireOnce : true,
+    observe: null,
+  };
+
+  observe(props);
+
+  return {
+    props: props,
+    stop: () => props.terminated = true,
+    restart: () => props.terminated = false,
+  };
+
 }
