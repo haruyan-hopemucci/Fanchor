@@ -35,13 +35,17 @@ function AutoLoadAnchor(settings) {
       rootMargin: `0px 0px ${gapValue}px 0px`
     };
     props.__observer = new IntersectionObserver((entries) => {
-      if (terminated) {
+      if (props.terminated) {
         return;
       }
       entries.forEach(e => {
+        if (e.target.dataset.fireOnce) {
+          return;
+        }
         if (e.isIntersecting) {
           props.func(e.target);
         }
+        e.target.dataset.fireOnce = props.fireOnce;
       });
     }, options);
 
@@ -58,7 +62,6 @@ function AutoLoadAnchor(settings) {
     func: settings.func,
     semaphore: 0,
     terminated: false,
-    runImmediate: settings.runImmediate !== undefined ? settings.runImmediate : true,
     gap: settings.gap ? settings.gap : 0,
     anchorPoint: settings.anchorPoint ? settings.anchorPoint : "top",  // "top" or "bottom"
     fireOnce: settings.fireOnce !== undefined ? settings.fireOnce : true,
