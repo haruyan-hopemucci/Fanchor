@@ -65,15 +65,22 @@ function AutoLoadAnchor(settings) {
     gap: settings.gap ? settings.gap : 0,
     anchorPoint: settings.anchorPoint ? settings.anchorPoint : "top",  // "top" or "bottom"
     fireOnce: settings.fireOnce !== undefined ? settings.fireOnce : true,
-    observe: null,
+    __observer: null,
   };
 
   observe(props);
 
   return {
     props: props,
+    /** アンカーの監視を一時停止します */
     stop: () => props.terminated = true,
+    /** アンカーの開始を再開します */
     restart: () => props.terminated = false,
+    /** 監視を解除し、完全に機能を停止します。destroyを実行すると再開できません。 */
+    destroy: () => {
+      props.__observer.disconnect();
+      props = {};
+    }
   };
 
 }

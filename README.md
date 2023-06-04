@@ -20,6 +20,8 @@ Execute function when targer element(s) appers in window
     obj.stop();
     // 監視を再開することも可能
     obj.restart();
+    // 完全に機能を停止する
+    obj.destroy();
   </script>
 ```
 
