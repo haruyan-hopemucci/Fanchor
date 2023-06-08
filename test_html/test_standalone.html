@@ -34,9 +34,9 @@
       <div class="test test-bottom">test-bottom: 変更前テキスト</div>
       <div class="test test-top">test-top: 変更前テキスト</div>
     </div>
-    <script src="../modules/auto-load-anchor.js"></script>
+    <script src="../modules/fanchor.js"></script>
     <script>
-      AutoLoadAnchor({
+      Fanchor({
         anchorSelector: ".test-bottom",
         anchorPoint: "bottom",
         func: (target) => {
@@ -44,7 +44,7 @@
           target.innerHTML = "test-bottom: テキストが変更されました";
         },
       });
-      AutoLoadAnchor({
+      Fanchor({
         anchorSelector: ".test-top",
         anchorPoint: "top",
         func: (target) => {

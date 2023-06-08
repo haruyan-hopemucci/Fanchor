@@ -1,4 +1,4 @@
-# AutoLoadAnchor
+# Fanchor
 Execute function when targer element(s) appers in window
 
 指定した要素が画面内に表示された際に、任意の関数を実行するモジュールです。
@@ -6,9 +6,9 @@ Execute function when targer element(s) appers in window
 ## Getting Started
 
 ```javascript
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    const obj = AutoLoadAnchor({
+    const obj = Fanchor({
       // 表示起点の対象になる要素をセレクタで指定する。
       anchorSelector: '.topic',
       // そのセレクタの対象要素が画面内に表示された際に実行する関数を設定する。
@@ -30,7 +30,7 @@ Execute function when targer element(s) appers in window
 デフォルト：
 ```javascript
 
-AutoLoadAnchor({
+Fanchor({
   anchorSelector: required,
   func: required, // (anchorSelectorTarget) => { ... }
   anchorPoint: "top",
@@ -64,9 +64,9 @@ AutoLoadAnchor({
 ```
 続けて、scriptを記載します。
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    new Fanchor(
       {
         anchorSelector: '.anchor',
         func: () => {
@@ -98,9 +98,9 @@ htmlを次の様に記載してください。
 ```
 スクリプトを以下の様に記載します。
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    new Fanchor(
       {
         anchorSelector: '.anchor',
         func: (target) => {
@@ -145,9 +145,9 @@ html部分
 
 スクリプト部分
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    new Fanchor(
       {
         anchorSelector: '.anchor',
         anchorPoint: "bottom",  // 表示対象ポイントを下端に設定
