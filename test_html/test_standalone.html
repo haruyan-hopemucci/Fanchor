@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body * {
+        box-sizing: border-box;
+      }
+      .container {
+        height: 150vh;
+        padding: 2em;
+      }
+      .test {
+        margin: 2em;
+        padding: 2em;
+        border: 1px solid #fff;
+      }
+      .bg-red {
+        background-color: #800;
+        color: #fff;
+      }
+      .bg-blue {
+        background-color: #008;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container bg-red">150vh</div>
+    <div class="container bg-blue">
+      <div class="test test-bottom">test-bottom: 変更前テキスト</div>
+      <div class="test test-top">test-top: 変更前テキスト</div>
+    </div>
+    <script src="../modules/auto-load-anchor.js"></script>
+    <script>
+      AutoLoadAnchor({
+        anchorSelector: ".test-bottom",
+        anchorPoint: "bottom",
+        func: (target) => {
+          console.log("test-bottom", "trrigered");
+          target.innerHTML = "test-bottom: テキストが変更されました";
+        },
+      });
+      AutoLoadAnchor({
+        anchorSelector: ".test-top",
+        anchorPoint: "top",
+        func: (target) => {
+          console.log("test-top", "trrigered");
+          target.innerHTML = "test-top: テキストが変更されました";
+        },
+      });
+    </script>
+  </body>
+</html>
