@@ -16,7 +16,7 @@ Execute function when targer element(s) appers in window
         target.classList.remove('hidden');
       },
     });
-    // 監視を止めることが可能
+    // 監視を一時的に止めることが可能
     obj.stop();
     // 監視を再開することも可能
     obj.restart();
@@ -27,7 +27,7 @@ Execute function when targer element(s) appers in window
 
 ## Options
 
-デフォルト：
+オプションパラメータ：
 ```javascript
 
 Fanchor({
@@ -66,7 +66,7 @@ Fanchor({
 ```html
   <script src="./fanchor.js"></script>
   <script>
-    new Fanchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         func: () => {
@@ -100,7 +100,7 @@ htmlを次の様に記載してください。
 ```html
   <script src="./fanchor.js"></script>
   <script>
-    new Fanchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         func: (target) => {
@@ -147,7 +147,7 @@ html部分
 ```html
   <script src="./fanchor.js"></script>
   <script>
-    new Fanchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         anchorPoint: "bottom",  // 表示対象ポイントを下端に設定
@@ -216,3 +216,7 @@ CSS部分
 
 アニメーション対象のh2要素は、予め `opacity:0` で透明にし、`translate` を用いて表示位置を左右下にずらしています。また、それぞれ `transition-delay` で異なる値を設定し、アニメーション開始時間をずらしています。
 `acttive`クラスが付与されると、 `opacity:1` と `translate` が0になり、透明から不透明になりつつ要素がずらした位置から元の位置に戻ってきます。
+
+### 無限スクロールの実装例
+
+TODO
