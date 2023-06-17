@@ -1,4 +1,4 @@
-# AutoLoadAnchor
+# Fanchor
 Execute function when targer element(s) appers in window
 
 指定した要素が画面内に表示された際に、任意の関数を実行するモジュールです。
@@ -6,9 +6,9 @@ Execute function when targer element(s) appers in window
 ## Getting Started
 
 ```javascript
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    const obj = AutoLoadAnchor({
+    const obj = Fanchor({
       // 表示起点の対象になる要素をセレクタで指定する。
       anchorSelector: '.topic',
       // そのセレクタの対象要素が画面内に表示された際に実行する関数を設定する。
@@ -16,7 +16,7 @@ Execute function when targer element(s) appers in window
         target.classList.remove('hidden');
       },
     });
-    // 監視を止めることが可能
+    // 監視を一時的に止めることが可能
     obj.stop();
     // 監視を再開することも可能
     obj.restart();
@@ -27,10 +27,10 @@ Execute function when targer element(s) appers in window
 
 ## Options
 
-デフォルト：
+オプションパラメータ：
 ```javascript
 
-AutoLoadAnchor({
+Fanchor({
   anchorSelector: required,
   func: required, // (anchorSelectorTarget) => { ... }
   anchorPoint: "top",
@@ -64,9 +64,9 @@ AutoLoadAnchor({
 ```
 続けて、scriptを記載します。
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         func: () => {
@@ -98,9 +98,9 @@ htmlを次の様に記載してください。
 ```
 スクリプトを以下の様に記載します。
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         func: (target) => {
@@ -145,9 +145,9 @@ html部分
 
 スクリプト部分
 ```html
-  <script src="./auto-load-anchor.js"></script>
+  <script src="./fanchor.js"></script>
   <script>
-    new AutoLoadAnchor(
+    Fanchor(
       {
         anchorSelector: '.anchor',
         anchorPoint: "bottom",  // 表示対象ポイントを下端に設定
@@ -216,3 +216,7 @@ CSS部分
 
 アニメーション対象のh2要素は、予め `opacity:0` で透明にし、`translate` を用いて表示位置を左右下にずらしています。また、それぞれ `transition-delay` で異なる値を設定し、アニメーション開始時間をずらしています。
 `acttive`クラスが付与されると、 `opacity:1` と `translate` が0になり、透明から不透明になりつつ要素がずらした位置から元の位置に戻ってきます。
+
+### 無限スクロールの実装例
+
+TODO

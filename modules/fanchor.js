@@ -1,11 +1,12 @@
 /**
- * auto-load-anchor.js
+ * fanchor.js
  * 
  * by haruyan-hopemucci
  * 
  * create: 2020.10.14
  * 
  * changelog:(above is newer)
+ *  v0.3.0 2023.06.08  : プロジェクト、関数名変更
  *  v0.2.0 2023.06.04  : IntersectingObserver API に書き換え
  *  v0.1.3 2020.11.23  : 実行済み判定の不具合修正
  *  v0.1.3 2020.11.11  : クラス形式から関数形式へ変更。fireOnce追加。
@@ -16,7 +17,7 @@
  * MIT License.
  */
 
-function AutoLoadAnchor(settings) {
+function Fanchor(settings) {
   /** gapオプションからobserverのthresholdオプションへのマッピング */
   const __anchorToThreshold = { "top": 0.0, "bottom": 1.0 };
   const __gapVectorToThreshold = { "top": 1, "bottom": -1 };
@@ -44,8 +45,8 @@ function AutoLoadAnchor(settings) {
         }
         if (e.isIntersecting) {
           props.func(e.target);
+          e.target.dataset.fireOnce = props.fireOnce;
         }
-        e.target.dataset.fireOnce = props.fireOnce;
       });
     }, options);
 
