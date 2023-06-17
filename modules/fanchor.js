@@ -40,7 +40,7 @@ function Fanchor(settings) {
         return;
       }
       entries.forEach(e => {
-        if (e.target.dataset.fireOnce) {
+        if (e.target.dataset.fireOnce === "true") {
           return;
         }
         if (e.isIntersecting) {
