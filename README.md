@@ -219,4 +219,4 @@ CSS部分
 
 ### 無限スクロールの実装例
 
-https://haruyan-hopemucci.github.io/my-portfolio/parts-auto-load-anchor.html 参照
+[無限ロードスクロールのサンプル](https://haruyan-hopemucci.github.io/my-portfolio/parts-auto-load-anchor.html) 参照
